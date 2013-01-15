@@ -1,6 +1,7 @@
 package ir.assignments.one.a;
 
 import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,11 +29,35 @@ public class Utilities {
 	 * @param input The file to read in and tokenize.
 	 * @return The list of tokens (words) from the input file, ordered by occurrence.
 	 */
-	public static ArrayList<String> tokenizeFile(File input) {
-		// TODO Write body!
-		return null;
+	public static ArrayList<String> tokenizeFile(File input) 
+	{
+		char letter;
+		StringBuffer word=new StringBuffer();
+		ArrayList<String> Tokens=new ArrayList<String>();
+		try
+		{
+			FileReader file=new FileReader(input);
+			do
+			{
+				letter=(char) file.read();
+				if(Character.isLetterOrDigit(letter))
+					word.append(Character.toLowerCase(letter));
+				else if(word.length()!=0)
+				{
+					Tokens.add(word.toString());
+					word.delete(0,word.length());
+				}
+			}while(letter!='\0');
+			file.close();
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+			return null;
+		}
+		return Tokens;
 	}
-	
+
 	/**
 	 * Takes a list of {@link Frequency}s and prints it to standard out. It also
 	 * prints out the total number of items, and the total number of unique items.
@@ -72,7 +97,17 @@ public class Utilities {
 	 * 
 	 * @param frequencies A list of frequencies.
 	 */
-	public static void printFrequencies(List<Frequency> frequencies) {
-		// TODO Write body!
+	public static void printFrequencies(List<Frequency> frequencies) 
+	{
+		int sum=0;
+		for(int i=0;i<frequencies.size();i++)
+			sum=sum+frequencies.get(i).getFrequency();
+		System.out.print("Total item count :"+sum);
+		System.out.println("Unique item count :"+frequencies.size());
+		for(int i=0;i<frequencies.size();i++)
+		{
+			System.out.println(frequencies.get(i).getText());
+			System.out.print('\t'+frequencies.get(i).getFrequency());
+		}
 	}
 }
