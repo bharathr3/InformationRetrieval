@@ -31,7 +31,7 @@ public class Utilities {
 	 */
 	public static ArrayList<String> tokenizeFile(File input) 
 	{
-		char letter;
+		int letter;
 		StringBuffer word=new StringBuffer();
 		ArrayList<String> Tokens=new ArrayList<String>();
 		try
@@ -39,15 +39,15 @@ public class Utilities {
 			FileReader file=new FileReader(input);
 			do
 			{
-				letter=(char) file.read();
-				if(Character.isLetterOrDigit(letter))
-					word.append(Character.toLowerCase(letter));
+				letter=file.read();
+				if(Character.isLetterOrDigit((char)letter))
+					word.append(Character.toLowerCase((char)letter));
 				else if(word.length()!=0)
 				{
 					Tokens.add(word.toString());
 					word.delete(0,word.length());
 				}
-			}while(letter!='\0');
+			}while(letter!=-1);
 			file.close();
 		}
 		catch(Exception e)
@@ -102,12 +102,13 @@ public class Utilities {
 		int sum=0;
 		for(int i=0;i<frequencies.size();i++)
 			sum=sum+frequencies.get(i).getFrequency();
-		System.out.print("Total item count :"+sum);
-		System.out.println("Unique item count :"+frequencies.size());
+		System.out.println("Total item count : "+sum);
+		System.out.println("Unique item count : "+frequencies.size());
+		System.out.println("");
 		for(int i=0;i<frequencies.size();i++)
 		{
-			System.out.println(frequencies.get(i).getText());
-			System.out.print('\t'+frequencies.get(i).getFrequency());
+			System.out.print(frequencies.get(i).getText());
+			System.out.println("  "+frequencies.get(i).getFrequency());
 		}
 	}
 }

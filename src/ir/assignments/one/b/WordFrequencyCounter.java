@@ -54,20 +54,21 @@ public final class WordFrequencyCounter {
 	{
 		try
 		{
-			SortedMap<Integer,List<String>> sorted_map=new TreeMap<Integer,List<String>>();
+			SortedMap<Integer,List<String>> sorted_map=new TreeMap<Integer,List<String>>(Collections.reverseOrder());
 			HashMap<String,Integer> hash=new HashMap<String,Integer>();
-			List<Frequency> frequencies = null;
+			List<Frequency> frequencies=new ArrayList<Frequency>();;
 			if(words==null)
 				return null;
 			else
 			{
 				for(int i=0;i<words.size();i++)
 				{
-					int count=hash.get(words.get(i));
-					if(count>0)
-						hash.put(words.get(i), count++);
+					String temp=words.get(i);
+					Integer count=hash.get(temp);
+					if(count!=null)
+						hash.put(temp, ++count);
 					else
-						hash.put(words.get(i),1);
+						hash.put(temp,1);
 				}
 				
 			}
@@ -84,7 +85,7 @@ public final class WordFrequencyCounter {
 			}
 			
 			//Set<Entry<Integer, List<String>>> s=sorted_map.entrySet(); 
-	        Iterator<Entry<Integer, List<String>>> i=sorted_map.entrySet().iterator();
+			Iterator<Entry<Integer, List<String>>> i=sorted_map.entrySet().iterator();
 	        while(i.hasNext())
 	        {
 	            Map.Entry<Integer,List<String>> pair =(Map.Entry<Integer,List<String>>)i.next();
@@ -92,8 +93,9 @@ public final class WordFrequencyCounter {
 	            List<String> value=(List<String>)pair.getValue();
 	            for(int j=0;j<value.size();j++)
 	            {
-	            	Frequency word = new Frequency(value.get(j), key);
-	            	frequencies.add(word);
+	            	//Frequency word = new Frequency(value.get(j), key);
+	            	//frequencies.add(word);
+	            	frequencies.add(new Frequency(value.get(j), key));
 	            }
 	        }
 			return frequencies;	
@@ -116,7 +118,7 @@ public final class WordFrequencyCounter {
 			List<String> words = Utilities.tokenizeFile(file);
 			List<Frequency> frequencies = computeWordFrequencies(words);
 			Utilities.printFrequencies(frequencies);
-		}
+			}
 		catch(Exception e){
 			System.out.println(e.getMessage());
 		}

@@ -1,0 +1,9 @@
+Fedora's Linux distribution may be competing with Ubuntu for the title of 
+silliest update name, but that doesn't diminish the impact of what are often 
+significant revisions. See the just-launched Fedora 18 as an example: while it's called 
+Spherical Cow, it introduces both a simpler installer to replace an aging predecessor as 
+well as the option of using the Gnome 3-based Cinnamon desktop we recently saw in Linux Mint 
+13. There's also FedFS, a file system that provides unity between multiple file servers, and 
+newer versions of both Sugar and XFCE for those who prefer different interfaces. If these and
+ many under-the-hood updates can overcome the giggling over rounded bovines, Fedora 18's 
+ download and release notes are ready at the source links.
