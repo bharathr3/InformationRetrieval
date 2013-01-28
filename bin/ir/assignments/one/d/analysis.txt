@@ -1,1 +1,4 @@
-Please place your analysis of the runtime complexity of your palindrome algorithm in this file.
+Given a string sequence of 'n' words, our algorithm performs n(n+1)/2 palindrome checks to find all possible palindromes.
+
+The running time of the algorithm is o(n^2).
+To be more precise, the running time is n(n+1)/2 for 'n' word string.

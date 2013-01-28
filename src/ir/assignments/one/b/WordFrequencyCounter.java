@@ -6,13 +6,12 @@ import ir.assignments.one.a.Utilities;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 /**
  * Counts the total number of words and their frequencies in a text file.
@@ -54,7 +53,6 @@ public final class WordFrequencyCounter {
 	{
 		try
 		{
-			SortedMap<Integer,List<String>> sorted_map=new TreeMap<Integer,List<String>>(Collections.reverseOrder());
 			HashMap<String,Integer> hash=new HashMap<String,Integer>();
 			List<Frequency> frequencies=new ArrayList<Frequency>();;
 			if(words==null)
@@ -72,32 +70,37 @@ public final class WordFrequencyCounter {
 				}
 				
 			}
-
+			
 			Iterator<Entry<String, Integer>> it = hash.entrySet().iterator();
-			while (it.hasNext()) {
-				Map.Entry<String, Integer> pairs = (Map.Entry<String, Integer>)it.next();
-				List<String> temp = new ArrayList<String>();
-				if(sorted_map.containsKey(pairs.getValue()))
-					temp=sorted_map.get(pairs.getValue());
-				temp.add(pairs.getKey());
-				Collections.sort(temp);
-				sorted_map.put(pairs.getValue(), temp);
+			while(it.hasNext())
+			{
+				Map.Entry<String,Integer> pair =(Map.Entry<String,Integer>)it.next();
+				String key = (String)pair.getKey();
+				key=key.replaceAll(",","");
+				key=key.replaceAll("\\[","");
+				key=key.replaceAll("\\]","");
+				Integer value = (Integer)pair.getValue();
+				frequencies.add(new Frequency(key, value));
 			}
 			
-			//Set<Entry<Integer, List<String>>> s=sorted_map.entrySet(); 
-			Iterator<Entry<Integer, List<String>>> i=sorted_map.entrySet().iterator();
-	        while(i.hasNext())
-	        {
-	            Map.Entry<Integer,List<String>> pair =(Map.Entry<Integer,List<String>>)i.next();
-	            int key = (Integer)pair.getKey();
-	            List<String> value=(List<String>)pair.getValue();
-	            for(int j=0;j<value.size();j++)
-	            {
-	            	//Frequency word = new Frequency(value.get(j), key);
-	            	//frequencies.add(word);
-	            	frequencies.add(new Frequency(value.get(j), key));
-	            }
-	        }
+			Collections.sort(frequencies, new Comparator<Frequency>() {
+				@Override
+				public int compare(final Frequency record1, final Frequency record2) {
+					int c;					
+					if(record1.getFrequency()>record2.getFrequency())
+							c=-1;
+						else if(record1.getFrequency()<record2.getFrequency())
+							c=1;
+						else
+							c=0;
+					if(c==0)
+					{
+						c = record1.getText().compareTo(record2.getText());
+						return c;
+					}
+					else
+						return c;
+				}});
 			return frequencies;	
 		}
 		catch(Exception e)
